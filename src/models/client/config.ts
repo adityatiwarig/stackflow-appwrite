@@ -1,9 +1,14 @@
-import { Client, Account } from "appwrite";
+import env from "@/app/env"
+import { Client, Account , Avatars,Databases,Storage} from "appwrite";
 
 const client = new Client()
-    .setEndpoint('https://<REGION>.cloud.appwrite.io/v1') // Your API Endpoint
-    .setProject('<PROJECT_ID>');                 // Your project ID
+    .setEndpoint(env.appwrite.endpoint) // Your API Endpoint
+    .setProject(env.appwrite.projectId);                 // Your project ID
 
 const account = new Account(client);
+const databases = new Databases(client);
+const avatars = new Avatars(client);
+const storage = new Storage(client);
 
+export { client , account, databases, avatars, storage};
 
