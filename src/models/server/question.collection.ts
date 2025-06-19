@@ -26,7 +26,7 @@ export default async function createQuestionCollection(){
     databases.createStringAttribute(db, questionCollection, "tags", 50, true, undefined, true),
     databases.createStringAttribute(db, questionCollection, "attachmentId", 50, false),
   ]);
-     console.log("Questions Attributs created!!");
+     console.log("Questions Attributes created!!");
      
 
   // create Indexes

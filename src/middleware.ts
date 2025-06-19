@@ -6,6 +6,7 @@ import getOrCreateStorage from './models/server/storageSetup'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
+  console.log("🔁 Middleware called: ", request.nextUrl.pathname);
   
   await Promise.all([
     getOrCreateDB(),

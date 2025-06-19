@@ -7,6 +7,7 @@ import createVoteCollection from "./vote.collection";
 import { databases } from "./config";  // server
 
 export default async function getOrCreateDB() {
+  console.log("📦 getOrCreateDB() called");
   try {
     // db h ya nhi
     await databases.get(db);     // agr h to connect ho jao

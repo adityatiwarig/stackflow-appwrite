@@ -5,8 +5,8 @@ import { databases } from "./config";
 export default async function createAnswerCollection() {
     // Creating Collection
     await databases.createCollection(db, answerCollection, answerCollection, [
-        Permission.read("any"),   // koi bhi padh ske
-        Permission.create("users"),  //crud koi bhi perform kre
+        Permission.create("users"),
+        Permission.read("any"),
         Permission.read("users"),
         Permission.update("users"),
         Permission.delete("users"),

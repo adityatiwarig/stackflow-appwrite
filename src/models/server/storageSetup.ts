@@ -4,31 +4,30 @@ import { storage } from "./config";
 
 export default async function getOrCreateStorage() {
     try {
-        // check kro bucket h ya nhi
-        await storage.getBucket(questionAttachmentBucket);  // agr h to connect ho jao
+        await storage.getBucket(questionAttachmentBucket);
         console.log("Storage Connected");
     } catch (error) {
-        console.warn("Bucket not found. Creating new bucket...");
         try {
             await storage.createBucket(
-                questionAttachmentBucket,  // bucketId
-                questionAttachmentBucket,  // bucket name
+                questionAttachmentBucket,
+                questionAttachmentBucket,
                 [
-                    Permission.create("users"),          // koi bhi logged-in user create kr skta h
-                    Permission.read("users"),            // sirf logged-in users hi dekh skte h
-                    Permission.update("users"),          // update krne ki permission
-                    Permission.delete("users"),          // delete krne ki permission
+                    Permission.create("users"),
+                    Permission.read("any"),
+                    Permission.read("users"),
+                    Permission.update("users"),
+                    Permission.delete("users"),
                 ],
-                false,                                   // isPUBLIC (false means only those with permission can access)
-                undefined,                               // fileSizeLimit
-                undefined,                               // fileRetention
-                ["jpg", "png", "gif", "jpeg", "webp", "heic"]  // allowed file types
+                false,
+                undefined,
+                undefined,
+                ["jpg", "png", "gif", "jpeg", "webp", "heic"]
             );
 
             console.log("Storage Created");
             console.log("Storage Connected");
-        } catch (createError) {
-            console.error("Error creating storage:", createError);  // agr bucket creation m dikkat aaye
+        } catch (error) {
+            console.error("Error creating storage:", error);
         }
     }
 }

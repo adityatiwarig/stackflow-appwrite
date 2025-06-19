@@ -1,11 +1,11 @@
 const env = {
     appwrite:{
         endpoint:String(process.env.
-        NEXT_PUBLIC_APPWRITE_HOST_URL),
+        NEXT_PUBLIC_APPWRITE_HOST_URL!),
         projectId:String(process.env.
-        NEXT_PUBLIC_APPWRITE_PROJECT_ID),
+        NEXT_PUBLIC_APPWRITE_PROJECT_ID!),
         apikey:String(process.env.
-        NEXT_PUBLIC_APPWRITE_API_KEY),
+        APPWRITE_API_KEY!),               // NEXT_PUBLIC YAHA SE HATANA PADGEA
 
     }
 }
