@@ -4,30 +4,34 @@ import createCommentCollection from "./comment.collection";
 import createQuestionCollection from "./question.collection";
 import createVoteCollection from "./vote.collection";
 
-import { databases } from "./config";  //server
+import { databases } from "./config";  // server
 
-export default async function getOrCreateDB(){  // db h ya nhi
+export default async function getOrCreateDB() {
   try {
-    await databases.get(db)
-    console.log("Database connected")
+    // db h ya nhi
+    await databases.get(db);     // agr h to connect ho jao
+    
+    console.log("Database connected");
   } catch (error) {
+    console.warn("Database not found. Creating database...");
     try {
-      await databases.create(db, db)
-      console.log("database created")
-      //create collections
-      await Promise.all([
-        createQuestionCollection(),
-        createAnswerCollection(),
-        createCommentCollection(),
-        createVoteCollection(),
+      await databases.create(db, db);    // agr db nhi h to nya db bnao
+      console.log("Database created");
 
-      ])
-      console.log("Collection created")
-      console.log("Database connected")
-    } catch (error) {
-      console.log("Error creating databases or collection", error)
+      // create collections
+      await Promise.all([
+        createQuestionCollection(),   // questions wali collection
+        createAnswerCollection(),     // answers wali collection
+        createCommentCollection(),    // comments wali collection
+        createVoteCollection(),       // votes wali collection
+      ]);
+      
+      console.log("Collections created");
+      console.log("Database connected");
+    } catch (createError) {
+      console.error("Error creating database or collections:", createError);  // agr koi error aaye db ya collections bnate waqt
     }
   }
 
-  return databases
+  return databases;  // db return kro
 }
