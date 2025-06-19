@@ -1,8 +1,8 @@
 import env from '@/app/env';
 
-import {Avatars,Client,Databases,Storage,Users} from 'node-appwrite'
+import {Avatars,Client,Databases,Storage,Users} from 'node-appwrite'  // SERVER-SIDE APPWRITE SDK
 
-
+//SERVER-SIDE BACKEND APPWRITE 
 
 let client = new Client();
 
@@ -12,6 +12,8 @@ client
     .setKey(env.appwrite.apikey) // Your secret API key
 
 ;
+
+// WHI CONFIG CLIENT WALA
 
 
 const users = new Users(client);
