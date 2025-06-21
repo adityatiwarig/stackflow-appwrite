@@ -10,13 +10,15 @@ export interface UserPrefs {
 }
 
 interface IAuthStore {           // STORE BANN RHA HAI
-  session: Models.Session | null;          // USER LOGGED IN HAI
+
+  session: Models.Session | null;          // ACTIVE USER KA SESSION
   jwt: string | null
   user: Models.User<UserPrefs> | null      // USER DETAILS
-  hydrated: boolean
+  hydrated: boolean                  // LOCALSTORAGE SE DATA LOAD HO RHA HAI ??
 
-  setHydrated(): void;                   // LOCALSTORAGE SE DATA LOAAD HO RHA HAI 
-  verfiySession(): Promise<void>;       // CHECK SESSION ACTIVE
+  setHydrated(): void;               // HYDRATED KO TRUE WHEN REHYDRATION COMP    
+  verfiySession(): Promise<void>;       // CHECK CURR SESSION ACTIVE
+  
   login(
     email: string,
     password: string
@@ -38,7 +40,7 @@ interface IAuthStore {           // STORE BANN RHA HAI
 }
 
 
-export const useAuthStore = create<IAuthStore>()(   //ZUSTAND STORE (IMMER , PERSIS)
+export const useAuthStore = create<IAuthStore>()(   //ZUSTAND STORE (IMMER , PERSIST)
   persist(         // KEEP SB KUCH IN LOCALSTORAGE
 
     immer((set) => ({          // IMMER TAKE CARE STATE ARE MUTATED OR NOT
@@ -65,15 +67,15 @@ export const useAuthStore = create<IAuthStore>()(   //ZUSTAND STORE (IMMER , PER
         try {
           const session = await account.createEmailPasswordSession(email, password)
           const [user, {jwt}] = await Promise.all([
-            account.get<UserPrefs>(),
-            account.createJWT()
+            account.get<UserPrefs>(),   // USER BANAO
+            account.createJWT()          // JWT BANAO
 
           ])
           if (!user.prefs?.reputation) await account.updatePrefs<UserPrefs>({
-            reputation: 0
+            reputation: 0        // USER KE PREF ME REP NAI HAI TO 0 KRO
           })
 
-          set({session, user, jwt})
+          set({session, user, jwt})  // IIN TENO KO SET KRO
           
           return { success: true}
 
@@ -104,8 +106,8 @@ export const useAuthStore = create<IAuthStore>()(   //ZUSTAND STORE (IMMER , PER
 
       async logout() {
         try {
-          await account.deleteSessions()
-          set({session: null, jwt: null, user: null})
+          await account.deleteSessions()   // ISME SIDHE DELETE SESSION KRTE HAI 
+          set({session: null, jwt: null, user: null})  // SB KUCH KO NULL KRO
           
         } catch (error) {
           console.log(error)
@@ -114,7 +116,7 @@ export const useAuthStore = create<IAuthStore>()(   //ZUSTAND STORE (IMMER , PER
     })),
     {
       name: "auth",
-      onRehydrateStorage(){
+      onRehydrateStorage(){  // calls setHydrated() taki sare comp ko pta chle ki store loaded
         return (state, error) => {
           if (!error) state?.setHydrated()
         }
